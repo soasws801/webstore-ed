@@ -1,5 +1,7 @@
 package com.packt.webstore.service.impl;
 
+import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -35,4 +37,18 @@ public class ProductServiceImpl implements ProductService{
 	public void addProduct(Product product) {
 		productRepository.addProduct(product);
 	}
+
+	public List<Product> getProductsByPriceFilter(BigDecimal low, BigDecimal high) {
+		return productRepository.getProductsByPriceFilter(low, high);
+	}
+
+	public List<Product> getProductsByManufacturer(String manufacturer) {
+		return productRepository.getProductsByManufacturer(manufacturer);
+	}
+	
+	public Set<Product> filterProducts(BigDecimal lowPrice, BigDecimal highPrice, String manufacturer, String category) {
+		return productRepository.filterProducts(lowPrice, highPrice, manufacturer, category);
+	}
+
+
 }

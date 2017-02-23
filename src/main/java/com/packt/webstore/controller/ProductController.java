@@ -1,8 +1,11 @@
 package com.packt.webstore.controller;
 
 import java.io.File;
+import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -135,5 +138,20 @@ public class ProductController {
 	@RequestMapping("/invalidPromoCode")
 	public String invalidPromoCode() {
 		return "invalidPromoCode";
+	}
+
+
+	@RequestMapping("/{category}/{price}")
+	public String filterProducts(
+			@MatrixVariable(pathVar = "price") Map<String, List<String>> priceRange,
+			@RequestParam("manufacturer") String manufacturer,
+			@PathVariable("category") String category, Model model) {
+		BigDecimal lowPrice = new BigDecimal(priceRange.get("low").get(0));
+		BigDecimal highPrice = new BigDecimal(priceRange.get("high").get(0));
+
+		model.addAttribute("products", productService.filterProducts(lowPrice,
+				highPrice, manufacturer, category));
+
+		return "products";
 	}
 }
